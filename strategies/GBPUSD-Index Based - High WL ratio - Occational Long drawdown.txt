@@ -1,0 +1,33 @@
+# Trade Size: 80% Dynamic
+# Trading Frequency: 10m
+# Stop Loss: None
+# Take Profit: 100 pips
+
+US30:1h usRises=Rises(low)
+US30:1h usFalls=Falls(high)
+
+UK100:1h ukRises=Rises(low)
+UK100:1h ukFalls=Falls(high)
+
+GBPUSD:1h hourlyUp=Uptrend()
+GBPUSD:1h hourlyDown=Downtrend()
+
+
+function getLast30dMaxMin():
+  GBPUSD:1d min=low
+  GBPUSD:1d max=high
+  for i from 1 to 29 step 1
+    GBPUSD:1d min=Math.Min(min,low[i])
+    GBPUSD:1d max=Math.Max(max,high[i])
+  
+  min, max
+
+low30d, high30d=getLast30dMaxMin()
+
+GBPUSD:1d high1d=high
+GBPUSD:1d low1d=low
+
+enter long when hourlyUp and ukRises and usFalls
+exit long when high1d<low30d
+enter short when hourlyDown and ukFalls and usRises
+exit short when low1d>high30d

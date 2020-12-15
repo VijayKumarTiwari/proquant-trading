@@ -1,0 +1,44 @@
+# Trade Size: 100% Static
+# Trading Frequency: 1h
+# Stop Loss: 100 pips(trailing)
+# Take Profit: None
+
+
+trend=SMA(close,200)
+dynamicSupport=SMA(close,50)
+up=Uptrend(dynamicSupport)
+down=Downtrend(dynamicSupport)
+
+function ClosedBar.Body(): Math.Abs(ClosedBar.open - close)
+
+function ClosedBar.BearishEngulfing():(
+  ClosedBar.IsRed() and
+  ClosedBar.open[1]<close[1] and
+  close[1]>(ClosedBar.open-(ClosedBar.Body()*0.9)) and
+  close[1]<(ClosedBar.open+(ClosedBar.Body()*1.1)) and
+  close<ClosedBar.open[1]
+)
+
+function ClosedBar.BullishEngulfing():(
+  ClosedBar.IsGreen() and
+  ClosedBar.open[1]>close[1] and
+  close[1]<(ClosedBar.open+(ClosedBar.Body()*0.9)) and
+  close[1]>(ClosedBar.open-(ClosedBar.Body()*1.1)) and
+  close>ClosedBar.open[1]
+)
+
+function ClosedBar.Dragonfly():(
+  ClosedBar.IsDoji() and
+  close>low
+)
+
+function ClosedBar.Gravestone():(
+  ClosedBar.IsDoji() and
+  close<high
+)
+
+enter long when close>dynamicSupport and ( ClosedBar.BullishEngulfing() or ClosedBar.Hammer() or ClosedBar.Dragonfly() or ClosedBar.HomingPigeon() )
+
+
+enter short when close<dynamicSupport and ( ClosedBar.BearishEngulfing() or ClosedBar.ShootingStar() or ClosedBar.DescendingHawk() )
+

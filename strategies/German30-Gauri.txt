@@ -1,0 +1,22 @@
+# Trade Size: 40% Dynamic
+# Trading Frequency: 4h
+# Stop Loss: 8600 pips(fixed)
+# Take Profit: 100 pips
+
+slow=Alligator.Jaws()
+medium=Alligator.Teeth()
+fast=Alligator.Lips()
+width=Math.Abs(fast-slow)
+envUp=EMAEnvelope.UpperBand(close,14,1)
+envDown=EMAEnvelope.LowerBand(close,14,1)
+
+longEnter1=Rises(slow)
+longEnter2=Uptrend(fast)
+bothEnter=Uptrend(width)
+shortEnter1=Falls(slow)
+shortEnter2=Downtrend(fast)
+
+enter long when longEnter1 and longEnter2 and bothEnter and Rises(close)
+exit long when Consecutive(Falls(close))>5
+enter short when shortEnter1 and shortEnter2 and bothEnter and Falls(close)
+exit short when Consecutive(Rises(close))>5

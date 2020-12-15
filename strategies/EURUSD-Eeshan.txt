@@ -1,0 +1,39 @@
+# Trade Size: 50% Dynamic
+# Trading Frequency: 15m
+# Stop Loss: 1000 pips(trailing)
+# Take Profit: 90 pips
+
+
+# Indicators
+
+adx = ADX(period: 40)
+mfi = MoneyFlowIndex(period: 9)
+stdDev = StdDev(
+  applyTo: close,
+  period: 16
+)
+
+# Rules/triggers
+
+longEntryRule = ChangesDirectionUpwards(adx)
+longEntryRule2 = CrossesUpwards(
+  value: mfi,
+  crosses: 33
+)
+
+shortEntryRule = ChangesDirectionUpwards(adx)
+shortEntryRule2 = CrossesDownwards(
+  value: mfi,
+  crosses: 67
+)
+
+longExitRule = stdDev > 0.076
+
+shortExitRule = stdDev > 0.076
+
+# Signals
+
+enter long when longEntryRule and longEntryRule2
+enter short when shortEntryRule and shortEntryRule2
+exit long when longExitRule
+exit short when shortExitRule

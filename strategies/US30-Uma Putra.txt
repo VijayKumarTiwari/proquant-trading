@@ -1,0 +1,40 @@
+# Trade Size: 50% Dynamic
+# Trading Frequency: 10m
+# Stop Loss: None
+# Take Profit: 82 pips
+
+
+# Indicators
+
+lips = Alligator.Lips(
+  applyTo: median,
+  period: 22,
+  shift: 13
+)
+rsi = RSI(
+  applyTo: close,
+  period: 14
+)
+momentum = Momentum(
+  applyTo: close,
+  period: 39
+)
+
+# Rules/triggers
+
+longEntryRule = Rises(lips)
+longEntryRule2 = rsi < 30
+
+shortEntryRule = Falls(lips)
+shortEntryRule2 = rsi > 70
+
+longExitRule = momentum < -90.21
+
+shortExitRule = momentum > 290.21
+
+# Signals
+
+enter long when longEntryRule and longEntryRule2
+enter short when shortEntryRule and shortEntryRule2
+exit long when longExitRule
+exit short when shortExitRule

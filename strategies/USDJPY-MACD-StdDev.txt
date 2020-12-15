@@ -1,0 +1,34 @@
+# Trade Size: 100% Static
+# Trading Frequency: 30m
+# Stop Loss: 120 pips(fixed)
+# Take Profit: None
+
+function MACDSignal(applyTo = close, signalPeriod = 9, fastPeriod = 12, slowPeriod = 26):
+  EMA(MACD(applyTo, fastPeriod, slowPeriod), signalPeriod)
+
+macd=MACD()
+macdSignal=MACDSignal()
+macdHist=macd-macdSignal
+stdDev=StdDev(close,10)
+isLong=CrossesUpwards(macd,macdSignal) and stdDev>0.055 and macdHist[1]<macdHist
+isShort=CrossesDownwards(macd,macdSignal) and stdDev>0.055 and macdHist[1]>macdHist
+
+lastLongEntrySignal=Since(isLong)
+lastShortEntrySignal=Since(isShort)
+
+exitCounter=1 if lastLongEntrySignal<=5 or lastShortEntrySignal<=5 else 1
+
+
+exitLong=Consecutive(macdHist[1]>macdHist)>=exitCounter
+exitShort=Consecutive(macdHist[1]<macdHist)>=exitCounter
+
+lastLongExitSignal=Since(exitLong)
+lastShortExitSignal=Since(exitShort)
+
+enter long when isLong
+exit long when exitLong
+
+enter short when isShort
+exit short when exitShort
+
+

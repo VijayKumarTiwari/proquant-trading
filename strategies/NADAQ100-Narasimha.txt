@@ -1,0 +1,28 @@
+# Trade Size: 50% Dynamic
+# Trading Frequency: 15m
+# Stop Loss: None
+# Take Profit: 100 pips
+
+NDAQ100:1h ndaqRise=Rises(close)
+SPX500:1h spxRise=Rises(close)
+US30:1h usRise=Rises(close)
+
+NDAQ100:1h ndaqFall=Falls(close)
+SPX500:1h spxFall=Falls(close)
+US30:1h usFall=Falls(close)
+
+
+EURUSD:1h eurUsdRise=Rises(close)
+GERMAN30:1h germanRise=Rises(close)
+UK100:1h ukRise=Rises(close)
+UK100:1h ukFall=Falls(close)
+EURUSD:1h eurUsdFall=Falls(close)
+
+
+NDAQ100:1h macd=MACD()
+NDAQ100:1h sma=SMA(close, 50)
+
+enter short when Rises(macd) and spxFall and usFall and germanRise and ukRise and eurUsdRise and Falls(sma)
+
+
+enter long when Rises(macd) and eurUsdFall and ukFall and ndaqRise and spxRise and usRise and Rises(sma)

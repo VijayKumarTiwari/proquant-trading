@@ -1,0 +1,18 @@
+# Trade Size: 100% Dynamic
+# Trading Frequency: 10m
+# Stop Loss: 5000 pips(fixed)
+# Take Profit: 500 pips
+
+USDCAD:1h usd1Up=Uptrend() or Rises(close)
+USDCHF:1h usd2Up=Uptrend() or Rises(close)
+USDJPY:1h usd3Up=Uptrend() or Rises(close)
+NDAQ100:1h usd4Up=Uptrend()
+SPX500:1h usd5Up=Uptrend() or Rises(close)
+US30:1h usd6Up=Uptrend() or Rises(close)
+
+
+Gold:1h macd=MACD()
+Gold:1h macdSignal=MACDSignal()
+Gold:1h rsi=RSI()
+
+enter long when usd1Up and usd2Up and usd3Up and usd4Up and usd5Up and usd6Up and macd<0 and Rises(macd) and macd<macdSignal and rsi<5

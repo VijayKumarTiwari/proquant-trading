@@ -1,0 +1,49 @@
+# Trade Size: 50% Dynamic
+# Trading Frequency: 5m
+# Stop Loss: None
+# Take Profit: 97 pips
+
+# Indicators
+
+demarker = DeMarker(period: 1)
+stdDev = StdDev(
+  applyTo: close,
+  period: 5
+)
+
+# Rules/triggers
+
+longEntryRule = CrossesUpwards(
+  value: demarker,
+  crosses: 0.19
+)
+longEntryRule2 = CrossesUpwards(
+  value: volume,
+  crosses: 793
+)
+
+shortEntryRule = CrossesDownwards(
+  value: demarker,
+  crosses: 0.81
+)
+shortEntryRule2 = CrossesUpwards(
+  value: volume,
+  crosses: 793
+)
+
+longExitRule = CrossesDownwards(
+  value: stdDev,
+  crosses: 932
+)
+
+shortExitRule = CrossesDownwards(
+  value: stdDev,
+  crosses: 932
+)
+
+# Signals
+
+enter long when longEntryRule and longEntryRule2
+enter short when shortEntryRule and shortEntryRule2
+exit long when longExitRule
+exit short when shortExitRule

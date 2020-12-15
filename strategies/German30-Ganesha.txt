@@ -1,0 +1,19 @@
+# Trade Size: 50% Dynamic
+# Trading Frequency: 4h
+# Stop Loss: None
+# Take Profit: 100 pips
+
+
+slow=Alligator.Jaws()
+medium=Alligator.Teeth()
+fast=Alligator.Lips()
+width=Math.Abs(fast-slow)
+
+longEnter1=Uptrend(slow)
+longEnter2=Uptrend(fast)
+bothEnter=Uptrend(width)
+shortEnter1=Downtrend(slow)
+shortEnter2=Downtrend(fast)
+
+enter long when longEnter1 and longEnter2 and bothEnter
+enter short when shortEnter1 and shortEnter2 and bothEnter

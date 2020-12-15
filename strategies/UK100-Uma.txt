@@ -1,0 +1,28 @@
+# Trade Size: 100% Static
+# Trading Frequency: 15m
+# Stop Loss: None
+# Take Profit: 100 pips
+
+
+NDAQ100:1h ndaqFall=Falls(close)
+SPX500:1h spxFall=Falls(close)
+US30:1h usFall=Falls(close)
+
+
+EURUSD:1h eurUsdRise=Rises(close)
+GERMAN30:1h germanRise=Rises(close)
+GBPUSD:1h gbpUsdRise=Rises(close)
+
+
+function getLast30dMin():
+  UK100:1d min=low
+  for i from 1 to 29 step 1
+    UK100:1d min=Math.Min(min,low[i])
+
+  min
+
+low30d=getLast30dMin()
+UK100:1d high1d=high
+
+enter long when eurUsdRise and germanRise and gbpUsdRise and ndaqFall and spxFall and usFall
+exit long when high1d<low30d

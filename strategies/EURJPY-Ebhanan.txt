@@ -1,0 +1,58 @@
+# Trade Size: 75% Dynamic
+# Trading Frequency: 1h
+# Stop Loss: 485 pips(trailing)
+# Take Profit: 68 pips
+
+# Indicators
+
+teeth = Alligator.Teeth(
+  applyTo: median,
+  period: 15,
+  shift: 6
+)
+findex = ForceIndex(period: 45)
+diPlus = DirectionalMovement.Positive(
+  period: 24
+)
+diMinus = DirectionalMovement.Negative(
+  period: 24
+)
+donchianUpper = DonchianChannel.Upper(
+  period: 11
+)
+donchianLower = DonchianChannel.Lower(
+  period: 11
+)
+
+# Rules/triggers
+
+longEntryRule = Falls(teeth)
+longEntryRule2 = CrossesUpwards(
+  value: findex,
+  crosses: 0
+)
+longEntryRule3 = diPlus > diMinus
+
+shortEntryRule = Rises(teeth)
+shortEntryRule2 = CrossesDownwards(
+  value: findex,
+  crosses: 0
+)
+shortEntryRule3 = diPlus < diMinus
+
+longExitRule = CrossesDownwards(
+  value: open,
+  crosses: donchianUpper
+)
+
+shortExitRule = CrossesUpwards(
+  value: open,
+  crosses: donchianLower
+)
+
+# Signals
+
+enter long when longEntryRule and longEntryRule2 and longEntryRule3
+enter short when shortEntryRule and shortEntryRule2 and shortEntryRule3
+exit long when longExitRule
+exit short when shortExitRule

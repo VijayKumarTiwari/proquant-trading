@@ -1,0 +1,44 @@
+# Trade Size: 16% Dynamic
+# Trading Frequency: 4h
+# Stop Loss: 2300 pips(trailing)
+# Take Profit: 177 pips
+
+# Indicators
+
+envelopesUpper = Envelopes.UpperBand(
+  applyTo: close,
+  period: 10,
+  deviation: 0.79
+)
+envelopesLower = Envelopes.LowerBand(
+  applyTo: close,
+  period: 10,
+  deviation: 0.79
+)
+rsi = RSI(
+  applyTo: close,
+  period: 14
+)
+
+# Rules/triggers
+
+longEntryRule = CrossesUpwards(
+  value: open,
+  crosses: envelopesUpper
+)
+
+shortEntryRule = CrossesDownwards(
+  value: open,
+  crosses: envelopesLower
+)
+
+longExitRule = rsi < 28
+
+shortExitRule = rsi > 72
+
+# Signals
+
+enter long when longEntryRule
+enter short when shortEntryRule
+exit long when longExitRule
+exit short when shortExitRule

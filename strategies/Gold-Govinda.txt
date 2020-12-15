@@ -1,0 +1,44 @@
+# Trade Size: 100% Dynamic
+# Trading Frequency: 5m
+# Stop Loss: None
+# Take Profit: 500 pips
+
+
+series support:
+  once:
+    Gold:4h l1=low
+    Gold:4h l2=low[1]
+    Gold:4h l3=low[2]
+    Gold:4h l4=low[3]
+    Gold:4h l5=low[4]
+    l3 if l5>l4 and l4>l3 and l3<l2 and l2<l1 else unknown
+  rest:
+    Gold:4h l1=low
+    Gold:4h l2=low[1]
+    Gold:4h l3=low[2]
+    Gold:4h l4=low[3]
+    Gold:4h l5=low[4]
+    l3 if l5>l4 and l4>l3 and l3<l2 and l2<l1 else support
+
+
+series resistance:
+  once:
+    Gold:1d h1=low
+    Gold:1d h2=low[1]
+    Gold:1d h3=low[2]
+    Gold:1d h4=low[3]
+    Gold:1d h5=low[4]
+    h3 if h5<h4 and h4<h3 and h3>h2 and h2>h1 else unknown
+  rest:
+    Gold:1d h1=low
+    Gold:1d h2=low[1]
+    Gold:1d h3=low[2]
+    Gold:1d h4=low[3]
+    Gold:1d h5=low[4]
+    h3 if h5<h4 and h4<h3 and h3>h2 and h2>h1 else resistance
+
+
+enter long when CrossesUpwards(open, support)
+# exit long when CrossesDownwards(open, resistance)
+enter short when CrossesDownwards(open, resistance)
+# exit short when CrossesUpwards(close, resistance)
